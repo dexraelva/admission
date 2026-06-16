@@ -284,7 +284,8 @@ textarea:focus{
 Application completed successfully.
 </div>
 
-<form id="admissionForm">
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbxTXGcmlZUN1dJijCPlJ3a-4cqC3cmu-esG7aTWhmTpU60y3FQ_U0GogyM-VKVaDBfWtA/exec" method="post" target="hidden_iframe">
 
 <!-- APPLICANT -->
 
@@ -615,68 +616,18 @@ Print Form
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTXGcmlZUN1dJijCPlJ3a-4cqC3cmu-esG7aTWhmTpU60y3FQ_U0GogyM-VKVaDBfWtA/exec';
 
-document.getElementById("admissionForm")
-.addEventListener("submit", async function(e){
-  e.preventDefault();
-
-  const fullname = document.getElementById("fullname").value;
-  if (fullname.trim() === "") {
-    alert("Please enter your full name.");
-    return;
-  }
-
-  const requirements = Array.from(document.querySelectorAll('input[name="requirements"]:checked'))
-    .map(el => el.value);
-
-  const formData = {
-    fullname: fullname,
-    dob: document.getElementById("dob").value,
-    age: document.getElementById("age").value,
-    gender: document.getElementById("gender").value,
-    civilStatus: document.getElementById("civilStatus").value,
-    nationality: document.getElementById("nationality").value,
-    mobile: document.getElementById("mobile").value,
-    email: document.getElementById("email").value,
-    homeAddress: document.getElementById("homeAddress").value,
-    education: document.getElementById("education").value,
-    lastSchool: document.getElementById("lastSchool").value,
-    graduationYear: document.getElementById("graduationYear").value,
-    churchName: document.getElementById("churchName").value,
-    pastorName: document.getElementById("pastorName").value,
-    pastorContact: document.getElementById("pastorContact").value,
-    membershipYears: document.getElementById("membershipYears").value,
-    churchAddress: document.getElementById("churchAddress").value,
-    program: document.querySelector('input[name="program"]:checked')?.value || "",
-    testimonyJesus: document.getElementById("testimonyJesus").value,
-    callingDescription: document.getElementById("callingDescription").value,
-    requirements: requirements.join(', '),
-    emergencyName: document.getElementById("emergencyName").value,
-    emergencyRelationship: document.getElementById("emergencyRelationship").value,
-    emergencyContact: document.getElementById("emergencyContact").value,
-    applicantSignature: document.getElementById("applicantSignature").value,
-    applicationDate: document.getElementById("applicationDate").value,
-  };
-
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (!response.ok) {
-      throw new Error('Server returned ' + response.status);
+document.getElementById("admissionForm").addEventListener("submit", function(e){
+    const fullname = document.getElementById("fullname").value;
+    if (fullname.trim() === "") {
+        e.preventDefault();
+        alert("Please enter your full name.");
+        return;
     }
 
+    // allow the form to submit to the hidden iframe (avoids CORS/preflight)
     document.getElementById("successMessage").style.display = "block";
     window.scrollTo({ top: 0, behavior: "smooth" });
-    document.getElementById("admissionForm").reset();
-  } catch (error) {
-    alert('Unable to submit form. Please check the script URL and try again.');
-    console.error(error);
-  }
+    setTimeout(() => document.getElementById("admissionForm").reset(), 700);
 });
 </script>
 
