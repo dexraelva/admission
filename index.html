@@ -776,7 +776,7 @@ Print Form
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
 <script>
-// Initialize EmailJS with your service ID
+// Initialize EmailJS with your public key
 emailjs.init("h4Souaf_8wC_qvPDw");
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyP7Q-zmJBmBk5IXfKtTP2SOKZtEpkpdfqelxzZB-btI7QEB0jmmgGyJ0SEHegLt2F2jg/exec';
@@ -871,12 +871,12 @@ document.getElementById("admissionForm").addEventListener("submit", function(e){
         // Send confirmation email via EmailJS
         emailjs.send("service_hluexge", "template_l8vw04m", templateParams)
                 .then(function(response) {
-                        console.log('Email sent successfully!', response.status);
-                        // Now submit the form to Google Apps Script
+                        console.log("Email sent successfully:", response);
                         submitFormToGoogleAppsScript();
-                }, function(error) {
-                        console.log('Email send failed, but continuing with form submission...', error);
-                        // Even if email fails, continue with form submission
+                })
+                .catch(function(error) {
+                        console.error("EmailJS failed:", error);
+                        alert("Confirmation email failed: " + JSON.stringify(error));
                         submitFormToGoogleAppsScript();
                 });
 });
