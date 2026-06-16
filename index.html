@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AIMTECH CHRISTIAN COLLEGE - Admission Form</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --primary:#0A4DB3;
+    --primary-dark:#032A6B;
+    --gold:#D4AF37;
+    --gold-light:#F2D06B;
+    --white:#ffffff;
+    --bg:#f5f7fa;
+    --text:#333;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+.header{
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    color:white;
+    padding:25px;
+    border-bottom:6px solid var(--gold);
+}
+
+.header-container{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    width:100px;
+    height:100px;
+    object-fit:contain;
+    background:white;
+    border-radius:10px;
+    padding:5px;
+}
+
+.school-info h1{
+    font-size:32px;
+}
+
+.school-info h2{
+    font-size:18px;
+    font-weight:400;
+}
+
+.school-info p{
+    font-size:14px;
+    opacity:.9;
+}
+
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.form-card{
+    background:white;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    overflow:hidden;
+}
+
+.form-title{
+    background:var(--primary-dark);
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.section{
+    padding:25px;
+    border-bottom:1px solid #eee;
+}
+
+.section:last-child{
+    border-bottom:none;
+}
+
+.section-title{
+    color:var(--primary-dark);
+    margin-bottom:20px;
+    border-left:6px solid var(--gold);
+    padding-left:10px;
+    font-size:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-bottom:6px;
+    font-weight:500;
+}
+
+input,
+select,
+textarea{
+    padding:12px;
+    border:1px solid #d7d7d7;
+    border-radius:8px;
+    font-size:14px;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 8px rgba(10,77,179,.2);
+}
+
+.program-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.program-card{
+    border:2px solid #ddd;
+    padding:15px;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.program-card:hover{
+    border-color:var(--primary);
+}
+
+.checkbox-group{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:10px;
+}
+
+.checkbox-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.actions{
+    padding:30px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:14px 30px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+}
+
+.btn-primary{
+    background:var(--gold);
+    color:var(--primary-dark);
+}
+
+.btn-primary:hover{
+    background:var(--gold-light);
+}
+
+.btn-secondary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-secondary:hover{
+    background:var(--primary-dark);
+}
+
+.footer{
+    text-align:center;
+    padding:30px;
+    color:#666;
+}
+
+.required{
+    color:red;
+}
+
+.success{
+    display:none;
+    background:#d4edda;
+    color:#155724;
+    padding:15px;
+    margin:20px;
+    border-radius:8px;
+}
+
+@media(max-width:768px){
+
+    .header-container{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .school-info h1{
+        font-size:24px;
+    }
+
+}
+
+@media print{
+
+    .actions{
+        display:none;
+    }
+
+    body{
+        background:white;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<header class="header">
+
+<div class="header-container">
+
+<img src="logo.png" class="logo" alt="Aimtech Logo">
+
+<div class="school-info">
+<h1>AIMTECH CHRISTIAN COLLEGE</h1>
+<h2>Theological Seminary Department</h2>
+<p>Admission & Enrollment Application Form</p>
+</div>
+
+</div>
+</header>
+
+<div class="container">
+
+<div class="form-card">
+
+<div class="form-title">
+<h2>STUDENT ADMISSION APPLICATION</h2>
+</div>
+
+<div class="success" id="successMessage">
+Application completed successfully.
+</div>
+
+<form id="admissionForm">
+
+<!-- APPLICANT -->
+
+<section class="section">
+
+<h3 class="section-title">Applicant Information</h3>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Full Name <span class="required">*</span></label>
+<input type="text" id="fullname" required>
+</div>
+
+<div class="form-group">
+<label>Date of Birth</label>
+<input type="date">
+</div>
+
+<div class="form-group">
+<label>Age</label>
+<input type="number">
+</div>
+
+<div class="form-group">
+<label>Gender</label>
+<select>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Civil Status</label>
+<select>
+<option>Single</option>
+<option>Married</option>
+<option>Widowed</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Nationality</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input type="tel">
+</div>
+
+<div class="form-group">
+<label>Email Address</label>
+<input type="email">
+</div>
+
+</div>
+
+<div class="form-group" style="margin-top:15px;">
+<label>Home Address</label>
+<textarea></textarea>
+</div>
+
+</section>
+
+<!-- EDUCATION -->
+
+<section class="section">
+
+<h3 class="section-title">Educational Background</h3>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Highest Educational Attainment</label>
+<select>
+<option>High School Graduate</option>
+<option>Senior High School Graduate</option>
+<option>College Undergraduate</option>
+<option>College Graduate</option>
+<option>Others</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>School Last Attended</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Year Graduated</label>
+<input type="text">
+</div>
+
+</div>
+
+</section>
+
+<!-- CHURCH -->
+
+<section class="section">
+
+<h3 class="section-title">Church Information</h3>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Local Church Name</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Pastor's Name</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Pastor Contact Number</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Years of Membership</label>
+<input type="number">
+</div>
+
+</div>
+
+<div class="form-group" style="margin-top:15px;">
+<label>Church Address</label>
+<textarea></textarea>
+</div>
+
+</section>
+
+<!-- PROGRAM -->
+
+<section class="section">
+
+<h3 class="section-title">Program Applied For</h3>
+
+<div class="program-grid">
+
+<label class="program-card">
+<input type="radio" name="program">
+ Bachelor of Theology (BTh)
+</label>
+
+<label class="program-card">
+<input type="radio" name="program">
+ Bachelor of Religious Education (BRE)
+</label>
+
+<label class="program-card">
+<input type="radio" name="program">
+ Bachelor of Ministry in Church Planting
+</label>
+
+<label class="program-card">
+<input type="radio" name="program">
+ Diploma in Biblical Studies (DBS)
+</label>
+
+<label class="program-card">
+<input type="radio" name="program">
+ Certificate in Christian Ministry (CCM)
+</label>
+
+</div>
+
+</section>
+
+<!-- MINISTRY -->
+
+<section class="section">
+
+<h3 class="section-title">Spiritual Testimony & Calling</h3>
+
+<div class="form-group">
+<label>How did you come to know Jesus Christ?</label>
+<textarea></textarea>
+</div>
+
+<br>
+
+<div class="form-group">
+<label>Describe your call to ministry.</label>
+<textarea></textarea>
+</div>
+
+</section>
+
+<!-- REQUIREMENTS -->
+
+<section class="section">
+
+<h3 class="section-title">Documentary Requirements</h3>
+
+<div class="checkbox-group">
+
+<label class="checkbox-item">
+<input type="checkbox">
+ PSA Birth Certificate
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Diploma/Form 137
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Marriage Certificate
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Barangay Certificate
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Good Moral Certificate
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Pastoral Endorsement
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ 2x2 Photos
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ 1x1 Photos
+</label>
+
+<label class="checkbox-item">
+<input type="checkbox">
+ Government ID
+</label>
+
+</div>
+
+</section>
+
+<!-- EMERGENCY -->
+
+<section class="section">
+
+<h3 class="section-title">Emergency Contact</h3>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Name</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Relationship</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Contact Number</label>
+<input type="text">
+</div>
+
+</div>
+
+</section>
+
+<!-- DECLARATION -->
+
+<section class="section">
+
+<h3 class="section-title">Applicant Declaration</h3>
+
+<p>
+I certify that the information provided is true and correct. I agree to abide by
+the policies and standards of AIMTECH CHRISTIAN COLLEGE – Theological Seminary Department.
+</p>
+
+<br>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Applicant Signature (Type Full Name)</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Date</label>
+<input type="date">
+</div>
+
+</div>
+
+</section>
+
+<div class="actions">
+
+<button type="submit" class="btn btn-primary">
+Submit Application
+</button>
+
+<button type="button" onclick="window.print()" class="btn btn-secondary">
+Print Form
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 AIMTECH CHRISTIAN COLLEGE • Theological Seminary Department
+</div>
+
+<script>
+
+document.getElementById("admissionForm")
+.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const fullname =
+document.getElementById("fullname").value;
+
+if(fullname.trim() === ""){
+
+alert("Please enter your full name.");
+return;
+
+}
+
+document.getElementById("successMessage")
+.style.display = "block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+});
+
+</script>
+
+</body>
+</html>
