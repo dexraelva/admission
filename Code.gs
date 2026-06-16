@@ -68,8 +68,9 @@ function doPost(e) {
     const sheet = getTargetSheet_();
     ensureHeaders_(sheet);
 
-    const p = e.parameter || {};
-    const ps = e.parameters || {};
+    const requestData = getRequestData_(e);
+    const p = requestData.parameter;
+    const ps = requestData.parameters;
 
     let emailStatus = 'Not sent: no email address';
     if (p.email) {
@@ -174,6 +175,66 @@ function getTargetSheet_() {
   }
 
   return sheets[0];
+}
+
+function getRequestData_(e) {
+  const parameter = e && e.parameter ? e.parameter : {};
+  const parameters = e && e.parameters ? e.parameters : {};
+
+  if (Object.keys(parameter).length || Object.keys(parameters).length) {
+    return {
+      parameter: parameter,
+      parameters: parameters
+    };
+  }
+
+  if (!e || !e.postData || !e.postData.contents) {
+    return {
+      parameter: {},
+      parameters: {}
+    };
+  }
+
+  return parseUrlEncoded_(e.postData.contents);
+}
+
+function parseUrlEncoded_(contents) {
+  const parameter = {};
+  const parameters = {};
+  const pairs = contents.split('&');
+
+  pairs.forEach(function(pair) {
+    if (!pair) {
+      return;
+    }
+
+    const parts = pair.split('=');
+    const name = decodeFormValue_(parts.shift() || '');
+    const value = decodeFormValue_(parts.join('='));
+
+    if (!name) {
+      return;
+    }
+
+    if (!parameters[name]) {
+      parameters[name] = [];
+    }
+
+    parameters[name].push(value);
+
+    if (parameter[name] === undefined) {
+      parameter[name] = value;
+    }
+  });
+
+  return {
+    parameter: parameter,
+    parameters: parameters
+  };
+}
+
+function decodeFormValue_(value) {
+  return decodeURIComponent(String(value).replace(/\+/g, ' '));
 }
 
 function ensureHeaders_(sheet) {

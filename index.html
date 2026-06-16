@@ -281,8 +281,7 @@ textarea:focus{
 Application completed successfully.
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbxgL80yosIJTgBOkt7xa1cYEd2UTkHtgy0SePa-2y9xeAbj6KvyoFkBP5jPepumf54ZPw/exec" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbzszPsnUQdGVNRYgbiwbugP0QUV17-BueW2KYrjWfyPY5QAmvjDPnarDRFZ74VkXNZvrg/exec" method="post">
 
 <!-- APPLICANT -->
 
@@ -832,32 +831,29 @@ function addReference(){
     container.appendChild(div);
 }
 
-let formSubmitted = false;
-
 document.getElementById("admissionForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const form = e.currentTarget;
         const fullname = document.getElementById("fullname").value;
         const email = document.getElementById("email").value;
         const program = document.querySelector('input[name="program"]:checked');
         
         if (fullname.trim() === "") {
-                e.preventDefault();
                 alert("Please enter your full name.");
                 return;
         }
         
         if (!email.trim()) {
-                e.preventDefault();
                 alert("Please enter your email address.");
                 return;
         }
         
         if (!program) {
-                e.preventDefault();
                 alert("Please select a program.");
                 return;
         }
         
-        formSubmitted = true;
         const successMessage = document.getElementById("successMessage");
         const submitButton = document.querySelector('#admissionForm button[type="submit"]');
 
@@ -869,28 +865,45 @@ document.getElementById("admissionForm").addEventListener("submit", function(e){
                 submitButton.disabled = true;
                 submitButton.textContent = "Submitting...";
         }
-});
 
-document.getElementById("hidden_iframe").addEventListener("load", function(){
-        if (!formSubmitted) {
-                return;
+        const body = new URLSearchParams();
+        const formData = new FormData(form);
+
+        for (const [name, value] of formData.entries()) {
+                if (value instanceof File) {
+                        continue;
+                }
+
+                body.append(name, value);
         }
 
-        const successMessage = document.getElementById("successMessage");
-        const submitButton = document.querySelector('#admissionForm button[type="submit"]');
-
-        successMessage.textContent = "Application completed successfully.";
-        successMessage.style.display = "block";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        setTimeout(() => {
-                document.getElementById("admissionForm").reset();
-                if (submitButton) {
-                        submitButton.disabled = false;
-                        submitButton.textContent = "Submit Application";
-                }
-                formSubmitted = false;
-        }, 700);
+        fetch(form.action, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body: body.toString()
+        })
+                .then(function() {
+                        successMessage.textContent = "Application completed successfully.";
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        setTimeout(() => {
+                                form.reset();
+                                if (submitButton) {
+                                        submitButton.disabled = false;
+                                        submitButton.textContent = "Submit Application";
+                                }
+                        }, 700);
+                })
+                .catch(function(error) {
+                        console.error("Submission failed:", error);
+                        successMessage.textContent = "Submission failed. Please check your internet connection and try again.";
+                        if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.textContent = "Submit Application";
+                        }
+                });
 });
 </script>
 
