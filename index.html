@@ -296,22 +296,22 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Full Name <span class="required">*</span></label>
-<input type="text" id="fullname" required>
+<input type="text" id="fullname" name="fullname" required>
 </div>
 
 <div class="form-group">
 <label>Date of Birth</label>
-<input type="date">
+<input type="date" id="dob" name="dob">
 </div>
 
 <div class="form-group">
 <label>Age</label>
-<input type="number">
+<input type="number" id="age" name="age">
 </div>
 
 <div class="form-group">
 <label>Gender</label>
-<select>
+<select id="gender" name="gender">
 <option>Male</option>
 <option>Female</option>
 </select>
@@ -319,7 +319,7 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Civil Status</label>
-<select>
+<select id="civilStatus" name="civilStatus">
 <option>Single</option>
 <option>Married</option>
 <option>Widowed</option>
@@ -328,24 +328,24 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Nationality</label>
-<input type="text">
+<input type="text" id="nationality" name="nationality">
 </div>
 
 <div class="form-group">
 <label>Mobile Number</label>
-<input type="tel">
+<input type="tel" id="mobile" name="mobile">
 </div>
 
 <div class="form-group">
 <label>Email Address</label>
-<input type="email">
+<input type="email" id="email" name="email">
 </div>
 
 </div>
 
 <div class="form-group" style="margin-top:15px;">
 <label>Home Address</label>
-<textarea></textarea>
+<textarea id="homeAddress" name="homeAddress"></textarea>
 </div>
 
 </section>
@@ -360,7 +360,7 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Highest Educational Attainment</label>
-<select>
+<select id="education" name="education">
 <option>High School Graduate</option>
 <option>Senior High School Graduate</option>
 <option>College Undergraduate</option>
@@ -371,12 +371,12 @@ Application completed successfully.
 
 <div class="form-group">
 <label>School Last Attended</label>
-<input type="text">
+<input type="text" id="lastSchool" name="lastSchool">
 </div>
 
 <div class="form-group">
 <label>Year Graduated</label>
-<input type="text">
+<input type="text" id="graduationYear" name="graduationYear">
 </div>
 
 </div>
@@ -393,29 +393,29 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Local Church Name</label>
-<input type="text">
+<input type="text" id="churchName" name="churchName">
 </div>
 
 <div class="form-group">
 <label>Pastor's Name</label>
-<input type="text">
+<input type="text" id="pastorName" name="pastorName">
 </div>
 
 <div class="form-group">
 <label>Pastor Contact Number</label>
-<input type="text">
+<input type="text" id="pastorContact" name="pastorContact">
 </div>
 
 <div class="form-group">
 <label>Years of Membership</label>
-<input type="number">
+<input type="number" id="membershipYears" name="membershipYears">
 </div>
 
 </div>
 
 <div class="form-group" style="margin-top:15px;">
 <label>Church Address</label>
-<textarea></textarea>
+<textarea id="churchAddress" name="churchAddress"></textarea>
 </div>
 
 </section>
@@ -429,27 +429,27 @@ Application completed successfully.
 <div class="program-grid">
 
 <label class="program-card">
-<input type="radio" name="program">
+<input type="radio" name="program" id="programBTh" value="Bachelor of Theology (BTh)">
  Bachelor of Theology (BTh)
 </label>
 
 <label class="program-card">
-<input type="radio" name="program">
+<input type="radio" name="program" id="programBRE" value="Bachelor of Religious Education (BRE)">
  Bachelor of Religious Education (BRE)
 </label>
 
 <label class="program-card">
-<input type="radio" name="program">
+<input type="radio" name="program" id="programMinistry" value="Bachelor of Ministry in Church Planting">
  Bachelor of Ministry in Church Planting
 </label>
 
 <label class="program-card">
-<input type="radio" name="program">
+<input type="radio" name="program" id="programDBS" value="Diploma in Biblical Studies (DBS)">
  Diploma in Biblical Studies (DBS)
 </label>
 
 <label class="program-card">
-<input type="radio" name="program">
+<input type="radio" name="program" id="programCCM" value="Certificate in Christian Ministry (CCM)">
  Certificate in Christian Ministry (CCM)
 </label>
 
@@ -465,14 +465,14 @@ Application completed successfully.
 
 <div class="form-group">
 <label>How did you come to know Jesus Christ?</label>
-<textarea></textarea>
+<textarea id="testimonyJesus" name="testimonyJesus"></textarea>
 </div>
 
 <br>
 
 <div class="form-group">
 <label>Describe your call to ministry.</label>
-<textarea></textarea>
+<textarea id="callingDescription" name="callingDescription"></textarea>
 </div>
 
 </section>
@@ -486,47 +486,47 @@ Application completed successfully.
 <div class="checkbox-group">
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="PSA Birth Certificate">
  PSA Birth Certificate
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Diploma/Form 137">
  Diploma/Form 137
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Marriage Certificate">
  Marriage Certificate
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Barangay Certificate">
  Barangay Certificate
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Good Moral Certificate">
  Good Moral Certificate
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Pastoral Endorsement">
  Pastoral Endorsement
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="2x2 Photos">
  2x2 Photos
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="1x1 Photos">
  1x1 Photos
 </label>
 
 <label class="checkbox-item">
-<input type="checkbox">
+<input type="checkbox" name="requirements" value="Government ID">
  Government ID
 </label>
 
@@ -544,17 +544,17 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Name</label>
-<input type="text">
+<input type="text" id="emergencyName" name="emergencyName">
 </div>
 
 <div class="form-group">
 <label>Relationship</label>
-<input type="text">
+<input type="text" id="emergencyRelationship" name="emergencyRelationship">
 </div>
 
 <div class="form-group">
 <label>Contact Number</label>
-<input type="text">
+<input type="text" id="emergencyContact" name="emergencyContact">
 </div>
 
 </div>
@@ -578,12 +578,12 @@ the policies and standards of AIMTECH CHRISTIAN COLLEGE – Theological Seminary
 
 <div class="form-group">
 <label>Applicant Signature (Type Full Name)</label>
-<input type="text">
+<input type="text" id="applicantSignature" name="applicantSignature">
 </div>
 
 <div class="form-group">
 <label>Date</label>
-<input type="date">
+<input type="date" id="applicationDate" name="applicationDate">
 </div>
 
 </div>
@@ -613,32 +613,71 @@ Print Form
 </div>
 
 <script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWY7Lkir_Qkj3vkfECPcgoUfPG9ykA8g40bS1gySuztnbv7nB82IS-R49OmUa5ujWg/exec';
 
 document.getElementById("admissionForm")
-.addEventListener("submit", function(e){
+.addEventListener("submit", async function(e){
+  e.preventDefault();
 
-e.preventDefault();
+  const fullname = document.getElementById("fullname").value;
+  if (fullname.trim() === "") {
+    alert("Please enter your full name.");
+    return;
+  }
 
-const fullname =
-document.getElementById("fullname").value;
+  const requirements = Array.from(document.querySelectorAll('input[name="requirements"]:checked'))
+    .map(el => el.value);
 
-if(fullname.trim() === ""){
+  const formData = {
+    fullname: fullname,
+    dob: document.getElementById("dob").value,
+    age: document.getElementById("age").value,
+    gender: document.getElementById("gender").value,
+    civilStatus: document.getElementById("civilStatus").value,
+    nationality: document.getElementById("nationality").value,
+    mobile: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    homeAddress: document.getElementById("homeAddress").value,
+    education: document.getElementById("education").value,
+    lastSchool: document.getElementById("lastSchool").value,
+    graduationYear: document.getElementById("graduationYear").value,
+    churchName: document.getElementById("churchName").value,
+    pastorName: document.getElementById("pastorName").value,
+    pastorContact: document.getElementById("pastorContact").value,
+    membershipYears: document.getElementById("membershipYears").value,
+    churchAddress: document.getElementById("churchAddress").value,
+    program: document.querySelector('input[name="program"]:checked')?.value || "",
+    testimonyJesus: document.getElementById("testimonyJesus").value,
+    callingDescription: document.getElementById("callingDescription").value,
+    requirements: requirements.join(', '),
+    emergencyName: document.getElementById("emergencyName").value,
+    emergencyRelationship: document.getElementById("emergencyRelationship").value,
+    emergencyContact: document.getElementById("emergencyContact").value,
+    applicantSignature: document.getElementById("applicantSignature").value,
+    applicationDate: document.getElementById("applicationDate").value,
+  };
 
-alert("Please enter your full name.");
-return;
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-}
+    if (!response.ok) {
+      throw new Error('Server returned ' + response.status);
+    }
 
-document.getElementById("successMessage")
-.style.display = "block";
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
+    document.getElementById("successMessage").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    document.getElementById("admissionForm").reset();
+  } catch (error) {
+    alert('Unable to submit form. Please check the script URL and try again.');
+    console.error(error);
+  }
 });
-
-});
-
 </script>
 
 </body>
