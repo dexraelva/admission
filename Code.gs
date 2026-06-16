@@ -154,6 +154,15 @@ function setupSheet() {
   ensureHeaders_(sheet);
 }
 
+function authorizeEmail() {
+  MailApp.sendEmail({
+    to: Session.getActiveUser().getEmail(),
+    subject: 'AIMTECH admission email authorization test',
+    body: 'If you received this message, MailApp is authorized for the admission form script.',
+    name: SCHOOL_NAME
+  });
+}
+
 function getTargetSheet_() {
   const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheets = spreadsheet.getSheets();
