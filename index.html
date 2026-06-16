@@ -774,7 +774,11 @@ Print Form
 © 2026 AIMTECH CHRISTIAN COLLEGE • Theological Seminary Department
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
 <script>
+// Initialize EmailJS with your service ID
+emailjs.init("h4Souaf_8wC_qvPDw");
+
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8wc52OjMLZarj2p2W1fLdDx3qm2UjRSGS_DKyDGePAsay8h_Pn6UOICOo5SXqaoV5uQ/exec';
 
 function removeElement(button){
@@ -835,18 +839,61 @@ function addReference(){
 }
 
 document.getElementById("admissionForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        
         const fullname = document.getElementById("fullname").value;
+        const email = document.getElementById("email").value;
+        const program = document.querySelector('input[name="program"]:checked');
+        
         if (fullname.trim() === "") {
-                e.preventDefault();
                 alert("Please enter your full name.");
                 return;
         }
+        
+        if (!email.trim()) {
+                alert("Please enter your email address.");
+                return;
+        }
+        
+        if (!program) {
+                alert("Please select a program.");
+                return;
+        }
+        
+        // Prepare email data
+        const templateParams = {
+                to_email: email,
+                to_name: fullname,
+                program_name: program.value,
+                college_name: "AIMTECH CHRISTIAN COLLEGE"
+        };
+        
+        // Send confirmation email via EmailJS
+        emailjs.send("service_hluexge", "template_l8vw04m", templateParams)
+                .then(function(response) {
+                        console.log('Email sent successfully!', response.status);
+                        // Now submit the form to Google Apps Script
+                        submitFormToGoogleAppsScript();
+                }, function(error) {
+                        console.log('Email send failed, but continuing with form submission...', error);
+                        // Even if email fails, continue with form submission
+                        submitFormToGoogleAppsScript();
+                });
+});
 
-        // allow the form to submit to the hidden iframe (avoids CORS/preflight)
+function submitFormToGoogleAppsScript() {
+        // Show success message
         document.getElementById("successMessage").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
-        setTimeout(() => document.getElementById("admissionForm").reset(), 700);
-});
+        
+        // Reset form
+        setTimeout(() => {
+                document.getElementById("admissionForm").reset();
+        }, 700);
+        
+        // Submit to Google Apps Script
+        document.getElementById("admissionForm").submit();
+}
 </script>
 
 </body>
