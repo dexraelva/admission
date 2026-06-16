@@ -282,7 +282,7 @@ Application completed successfully.
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbyP7Q-zmJBmBk5IXfKtTP2SOKZtEpkpdfqelxzZB-btI7QEB0jmmgGyJ0SEHegLt2F2jg/exec" method="post" enctype="multipart/form-data" target="hidden_iframe">
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbxb9_EdsojEjwuC4RWYW20am-50CwEInZQcdckqJOBRvVgseEJgnFeGQBO62mO2S1QOaA/exec" method="post" enctype="multipart/form-data" target="hidden_iframe">
 
 <!-- APPLICANT -->
 
@@ -774,13 +774,7 @@ Print Form
 © 2026 AIMTECH CHRISTIAN COLLEGE • Theological Seminary Department
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/index.min.js"></script>
 <script>
-// Initialize EmailJS with your public key
-emailjs.init("h4Souaf_8wC_qvPDw");
-
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyP7Q-zmJBmBk5IXfKtTP2SOKZtEpkpdfqelxzZB-btI7QEB0jmmgGyJ0SEHegLt2F2jg/exec';
-
 function removeElement(button){
     const item = button.closest('.family-item, .work-item, .lecture-item, .reference-item');
     if(item) item.remove();
@@ -860,38 +854,17 @@ document.getElementById("admissionForm").addEventListener("submit", function(e){
                 return;
         }
         
-        // Prepare email data
-        const templateParams = {
-                to_email: email,
-                to_name: fullname,
-                program_name: program.value,
-                college_name: "AIMTECH CHRISTIAN COLLEGE"
-        };
-        
-        // Send confirmation email via EmailJS
-        emailjs.send("service_hluexge", "template_l8vw04m", templateParams)
-                .then(function(response) {
-                        console.log("Email sent successfully:", response);
-                        submitFormToGoogleAppsScript();
-                })
-                .catch(function(error) {
-                        console.error("EmailJS failed:", error);
-                        alert("Confirmation email failed: " + JSON.stringify(error));
-                        submitFormToGoogleAppsScript();
-                });
+        submitFormToGoogleAppsScript();
 });
 
 function submitFormToGoogleAppsScript() {
-        // Show success message
         document.getElementById("successMessage").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
         
-        // Reset form
         setTimeout(() => {
                 document.getElementById("admissionForm").reset();
         }, 700);
         
-        // Submit to Google Apps Script
         document.getElementById("admissionForm").submit();
 }
 </script>
