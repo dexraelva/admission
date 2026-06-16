@@ -21,10 +21,7 @@
 }
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body{
@@ -285,7 +282,7 @@ Application completed successfully.
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbz8wc52OjMLZarj2p2W1fLdDx3qm2UjRSGS_DKyDGePAsay8h_Pn6UOICOo5SXqaoV5uQ/exec" method="post" target="hidden_iframe">
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbx1ADrQ_epOzVQM3IphxnLIuiffALr2vl-YTBdbfDD-6zIYcpOZ7o0NYwSMig1wr56heQ/exec" method="post" enctype="multipart/form-data" target="hidden_iframe">
 
 <!-- APPLICANT -->
 
@@ -302,7 +299,12 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Date of Birth</label>
-<input type="date" id="dob" name="dob">
+<input type="date" id="dob" name="dob" required>
+</div>
+
+<div class="form-group">
+<label>Place of Birth</label>
+<input type="text" id="placeOfBirth" name="placeOfBirth">
 </div>
 
 <div class="form-group">
@@ -319,17 +321,53 @@ Application completed successfully.
 </div>
 
 <div class="form-group">
+<label>Height (cm)</label>
+<input type="number" id="height" name="height">
+</div>
+
+<div class="form-group">
+<label>Weight (kg)</label>
+<input type="number" id="weight" name="weight">
+</div>
+
+<div class="form-group">
 <label>Civil Status</label>
 <select id="civilStatus" name="civilStatus">
 <option>Single</option>
 <option>Married</option>
 <option>Widowed</option>
+<option>Separated</option>
 </select>
 </div>
 
 <div class="form-group">
-<label>Nationality</label>
-<input type="text" id="nationality" name="nationality">
+<label>Spouse Name (if married)</label>
+<input type="text" id="spouseName" name="spouseName">
+</div>
+
+<div class="form-group">
+<label>Citizenship</label>
+<input type="text" id="citizenship" name="citizenship">
+</div>
+
+<div class="form-group">
+<label>TIN (Tax Identification Number)</label>
+<input type="text" id="tin" name="tin">
+</div>
+
+<div class="form-group">
+<label>Residential Certificate / Cedula</label>
+<input type="text" id="cedula" name="cedula">
+</div>
+
+<div class="form-group">
+<label>Provincial Address</label>
+<input type="text" id="provincialAddress" name="provincialAddress">
+</div>
+
+<div class="form-group">
+<label>Present Address</label>
+<textarea id="presentAddress" name="presentAddress"></textarea>
 </div>
 
 <div class="form-group">
@@ -339,14 +377,9 @@ Application completed successfully.
 
 <div class="form-group">
 <label>Email Address</label>
-<input type="email" id="email" name="email">
+<input type="email" id="email" name="email" required>
 </div>
 
-</div>
-
-<div class="form-group" style="margin-top:15px;">
-<label>Home Address</label>
-<textarea id="homeAddress" name="homeAddress"></textarea>
 </div>
 
 </section>
@@ -357,32 +390,47 @@ Application completed successfully.
 
 <h3 class="section-title">Educational Background</h3>
 
-<div class="grid">
+<div class="section" style="padding:0 25px 25px 25px;">
 
 <div class="form-group">
-<label>Highest Educational Attainment</label>
-<select id="education" name="education">
-<option>High School Graduate</option>
-<option>Senior High School Graduate</option>
-<option>College Undergraduate</option>
-<option>College Graduate</option>
-<option>Others</option>
-</select>
+<label>1. Primary</label>
+<input type="text" name="primary_school" placeholder="School name">
+<input type="text" name="primary_year" placeholder="Year(s) attended">
 </div>
 
 <div class="form-group">
-<label>School Last Attended</label>
-<input type="text" id="lastSchool" name="lastSchool">
+<label>2. Secondary</label>
+<input type="text" name="secondary_school" placeholder="School name">
+<input type="text" name="secondary_year" placeholder="Year(s) attended">
 </div>
 
 <div class="form-group">
-<label>Year Graduated</label>
-<input type="text" id="graduationYear" name="graduationYear">
+<label>3. Tertiary (with course)</label>
+<input type="text" name="tertiary_school" placeholder="School name">
+<input type="text" name="tertiary_course" placeholder="Course">
+<input type="text" name="tertiary_year" placeholder="Year(s) attended">
+</div>
+
+<div class="form-group">
+<label>4. Vocational (program)</label>
+<input type="text" name="vocational_program" placeholder="Program / School">
+<input type="text" name="vocational_year" placeholder="Year(s) attended">
+</div>
+
+<div class="form-group">
+<label>5. Others</label>
+<input type="text" name="education_others" placeholder="Other trainings or schools">
+</div>
+
+<div class="form-group">
+<label>6. Honors / Awards (if any)</label>
+<input type="text" name="honors_awards" placeholder="List honors or awards">
 </div>
 
 </div>
 
 </section>
+
 
 <!-- CHURCH -->
 
@@ -430,28 +478,23 @@ Application completed successfully.
 <div class="program-grid">
 
 <label class="program-card">
-<input type="radio" name="program" id="programBTh" value="Bachelor of Theology (BTh)">
- Bachelor of Theology (BTh)
+    <input type="radio" name="program" id="programBTh" value="Bachelor in Theology" required>
+    Bachelor in Theology
 </label>
 
 <label class="program-card">
-<input type="radio" name="program" id="programBRE" value="Bachelor of Religious Education (BRE)">
- Bachelor of Religious Education (BRE)
+    <input type="radio" name="program" id="programBCE" value="Bachelor in Christian Education">
+    Bachelor in Christian Education
 </label>
 
 <label class="program-card">
-<input type="radio" name="program" id="programMinistry" value="Bachelor of Ministry in Church Planting">
- Bachelor of Ministry in Church Planting
+    <input type="radio" name="program" id="programMM" value="Master in Ministry">
+    Master in Ministry
 </label>
 
 <label class="program-card">
-<input type="radio" name="program" id="programDBS" value="Diploma in Biblical Studies (DBS)">
- Diploma in Biblical Studies (DBS)
-</label>
-
-<label class="program-card">
-<input type="radio" name="program" id="programCCM" value="Certificate in Christian Ministry (CCM)">
- Certificate in Christian Ministry (CCM)
+    <input type="radio" name="program" id="programDM" value="Doctor of Ministry">
+    Doctor of Ministry
 </label>
 
 </div>
@@ -477,6 +520,124 @@ Application completed successfully.
 </div>
 
 </section>
+
+<!-- SPIRITUAL LIFE -->
+
+<section class="section">
+<h3 class="section-title">Spiritual Life</h3>
+
+<div class="form-group">
+    <label>Date Accepted the Lord Jesus Christ as Personal Saviour</label>
+    <input type="date" id="dateAccepted" name="dateAccepted">
+</div>
+
+<div class="form-group">
+    <label>Date Baptized</label>
+    <input type="date" id="dateBaptized" name="dateBaptized">
+</div>
+
+<div class="form-group">
+    <label>Baptized By</label>
+    <input type="text" id="baptizedBy" name="baptizedBy">
+</div>
+
+<div class="form-group">
+    <label>Church Affiliation</label>
+    <input type="text" id="churchAffiliation" name="churchAffiliation">
+</div>
+
+<div class="form-group">
+    <label>Venue</label>
+    <input type="text" id="baptismVenue" name="baptismVenue">
+</div>
+
+<div class="form-group">
+    <label>Denomination</label>
+    <input type="text" id="denomination" name="denomination">
+</div>
+
+</section>
+
+<!-- MEMBERS OF THE FAMILY -->
+
+<section class="section">
+<h3 class="section-title">Members of the Family</h3>
+<div id="familyContainer">
+    <div class="grid family-item">
+        <div class="form-group"><label>Name</label><input type="text" name="family_name[]"></div>
+        <div class="form-group"><label>Relationship</label><input type="text" name="family_relation[]"></div>
+        <div class="form-group"><label>Age</label><input type="number" name="family_age[]"></div>
+        <div class="form-group"><label>Occupation</label><input type="text" name="family_occupation[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    </div>
+</div>
+<div class="actions"><button type="button" class="btn btn-primary" onclick="addFamilyMember()">Add Family Member</button></div>
+</section>
+
+<!-- WORK EXPERIENCES -->
+
+<section class="section">
+<h3 class="section-title">Work Experiences</h3>
+<div id="workContainer">
+    <div class="grid work-item">
+        <div class="form-group"><label>Company Name</label><input type="text" name="work_company[]"></div>
+        <div class="form-group"><label>Job Description</label><input type="text" name="work_description[]"></div>
+        <div class="form-group"><label>Year</label><input type="text" name="work_year[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    </div>
+</div>
+<div class="actions"><button type="button" class="btn btn-primary" onclick="addWorkExperience()">Add Work Experience</button></div>
+</section>
+
+<!-- LECTURES & SEMINARS -->
+
+<section class="section">
+<h3 class="section-title">Lectures & Seminars</h3>
+<div id="lectureContainer">
+    <div class="grid lecture-item">
+        <div class="form-group"><label>Title / Topic</label><input type="text" name="lecture_title[]"></div>
+        <div class="form-group"><label>Year</label><input type="text" name="lecture_year[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    </div>
+</div>
+<div class="actions"><button type="button" class="btn btn-primary" onclick="addLecture()">Add Lecture / Seminar</button></div>
+</section>
+
+<!-- CHARACTER REFERENCES -->
+
+<section class="section">
+<h3 class="section-title">Character References</h3>
+<div id="referenceContainer">
+    <div class="grid reference-item">
+        <div class="form-group"><label>Name</label><input type="text" name="ref_name[]"></div>
+        <div class="form-group"><label>Contact</label><input type="text" name="ref_contact[]"></div>
+        <div class="form-group"><label>Relationship</label><input type="text" name="ref_relation[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    </div>
+</div>
+<div class="actions"><button type="button" class="btn btn-primary" onclick="addReference()">Add Reference</button></div>
+</section>
+
+<!-- UPLOAD DOCUMENTS -->
+
+<section class="section">
+<h3 class="section-title">Upload Documents</h3>
+<p>You may upload supporting documents (e.g., birth certificate, diploma, IDs). Files will be saved to Google Drive and links added to the spreadsheet.</p>
+<div class="form-group">
+    <label>Upload Files (you may select multiple)</label>
+    <input type="file" id="files" name="files" multiple>
+</div>
+
+<div class="form-group">
+    <label>Which document is primary ID?</label>
+    <select name="primary_id" id="primary_id">
+        <option value="PSA Birth Certificate">PSA Birth Certificate</option>
+        <option value="Government ID">Government ID</option>
+        <option value="Cedula">Cedula</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
 
 <!-- REQUIREMENTS -->
 
@@ -579,7 +740,7 @@ the policies and standards of AIMTECH CHRISTIAN COLLEGE – Theological Seminary
 
 <div class="form-group">
 <label>Applicant Signature (Type Full Name)</label>
-<input type="text" id="applicantSignature" name="applicantSignature">
+<input type="text" id="applicantSignature" name="applicantSignature" required>
 </div>
 
 <div class="form-group">
@@ -616,18 +777,75 @@ Print Form
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8wc52OjMLZarj2p2W1fLdDx3qm2UjRSGS_DKyDGePAsay8h_Pn6UOICOo5SXqaoV5uQ/exec';
 
-document.getElementById("admissionForm").addEventListener("submit", function(e){
-    const fullname = document.getElementById("fullname").value;
-    if (fullname.trim() === "") {
-        e.preventDefault();
-        alert("Please enter your full name.");
-        return;
-    }
+function removeElement(button){
+    const item = button.closest('.family-item, .work-item, .lecture-item, .reference-item');
+    if(item) item.remove();
+}
 
-    // allow the form to submit to the hidden iframe (avoids CORS/preflight)
-    document.getElementById("successMessage").style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setTimeout(() => document.getElementById("admissionForm").reset(), 700);
+function addFamilyMember(){
+    const container = document.getElementById('familyContainer');
+    const div = document.createElement('div');
+    div.className = 'grid family-item';
+    div.innerHTML = `
+        <div class="form-group"><label>Name</label><input type="text" name="family_name[]"></div>
+        <div class="form-group"><label>Relationship</label><input type="text" name="family_relation[]"></div>
+        <div class="form-group"><label>Age</label><input type="number" name="family_age[]"></div>
+        <div class="form-group"><label>Occupation</label><input type="text" name="family_occupation[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    `;
+    container.appendChild(div);
+}
+
+function addWorkExperience(){
+    const container = document.getElementById('workContainer');
+    const div = document.createElement('div');
+    div.className = 'grid work-item';
+    div.innerHTML = `
+        <div class="form-group"><label>Company Name</label><input type="text" name="work_company[]"></div>
+        <div class="form-group"><label>Job Description</label><input type="text" name="work_description[]"></div>
+        <div class="form-group"><label>Year</label><input type="text" name="work_year[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    `;
+    container.appendChild(div);
+}
+
+function addLecture(){
+    const container = document.getElementById('lectureContainer');
+    const div = document.createElement('div');
+    div.className = 'grid lecture-item';
+    div.innerHTML = `
+        <div class="form-group"><label>Title / Topic</label><input type="text" name="lecture_title[]"></div>
+        <div class="form-group"><label>Year</label><input type="text" name="lecture_year[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    `;
+    container.appendChild(div);
+}
+
+function addReference(){
+    const container = document.getElementById('referenceContainer');
+    const div = document.createElement('div');
+    div.className = 'grid reference-item';
+    div.innerHTML = `
+        <div class="form-group"><label>Name</label><input type="text" name="ref_name[]"></div>
+        <div class="form-group"><label>Contact</label><input type="text" name="ref_contact[]"></div>
+        <div class="form-group"><label>Relationship</label><input type="text" name="ref_relation[]"></div>
+        <div class="form-group"><label></label><button type="button" onclick="removeElement(this)" class="btn">Remove</button></div>
+    `;
+    container.appendChild(div);
+}
+
+document.getElementById("admissionForm").addEventListener("submit", function(e){
+        const fullname = document.getElementById("fullname").value;
+        if (fullname.trim() === "") {
+                e.preventDefault();
+                alert("Please enter your full name.");
+                return;
+        }
+
+        // allow the form to submit to the hidden iframe (avoids CORS/preflight)
+        document.getElementById("successMessage").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => document.getElementById("admissionForm").reset(), 700);
 });
 </script>
 
