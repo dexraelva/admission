@@ -832,41 +832,66 @@ function addReference(){
     container.appendChild(div);
 }
 
+let formSubmitted = false;
+
 document.getElementById("admissionForm").addEventListener("submit", function(e){
-        e.preventDefault();
-        
         const fullname = document.getElementById("fullname").value;
         const email = document.getElementById("email").value;
         const program = document.querySelector('input[name="program"]:checked');
         
         if (fullname.trim() === "") {
+                e.preventDefault();
                 alert("Please enter your full name.");
                 return;
         }
         
         if (!email.trim()) {
+                e.preventDefault();
                 alert("Please enter your email address.");
                 return;
         }
         
         if (!program) {
+                e.preventDefault();
                 alert("Please select a program.");
                 return;
         }
         
-        submitFormToGoogleAppsScript();
+        formSubmitted = true;
+        const successMessage = document.getElementById("successMessage");
+        const submitButton = document.querySelector('#admissionForm button[type="submit"]');
+
+        successMessage.textContent = "Submitting application...";
+        successMessage.style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+        }
 });
 
-function submitFormToGoogleAppsScript() {
-        document.getElementById("successMessage").style.display = "block";
+document.getElementById("hidden_iframe").addEventListener("load", function(){
+        if (!formSubmitted) {
+                return;
+        }
+
+        const successMessage = document.getElementById("successMessage");
+        const submitButton = document.querySelector('#admissionForm button[type="submit"]');
+
+        successMessage.textContent = "Application completed successfully.";
+        successMessage.style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
-        
+
         setTimeout(() => {
                 document.getElementById("admissionForm").reset();
+                if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Submit Application";
+                }
+                formSubmitted = false;
         }, 700);
-        
-        document.getElementById("admissionForm").submit();
-}
+});
 </script>
 
 </body>
