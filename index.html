@@ -225,6 +225,22 @@ textarea:focus{
     border-radius:8px;
 }
 
+.success.error{
+    background:#f8d7da;
+    color:#721c24;
+}
+
+.field-error{
+    border-color:#dc3545 !important;
+    box-shadow:0 0 8px rgba(220,53,69,.2) !important;
+}
+
+.error-text{
+    color:#b02a37;
+    font-size:12px;
+    margin-top:5px;
+}
+
 @media(max-width:768px){
 
     .header-container{
@@ -281,7 +297,7 @@ textarea:focus{
 Application completed successfully.
 </div>
 
-<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbwYpNIeJomWTAmiSgzDyg7XpBoZDy-f3jl02dNhGvt67vjlAAOeK3W98Q1VdDVAAeleUQ/exec" method="post">
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbwYpNIeJomWTAmiSgzDyg7XpBoZDy-f3jl02dNhGvt67vjlAAOeK3W98Q1VdDVAAeleUQ/exec" method="post" novalidate>
 
 <!-- APPLICANT -->
 
@@ -297,7 +313,7 @@ Application completed successfully.
 </div>
 
 <div class="form-group">
-<label>Date of Birth</label>
+<label>Date of Birth <span class="required">*</span></label>
 <input type="date" id="dob" name="dob" required>
 </div>
 
@@ -365,17 +381,17 @@ Application completed successfully.
 </div>
 
 <div class="form-group">
-<label>Present Address</label>
-<textarea id="presentAddress" name="presentAddress"></textarea>
+<label>Present Address <span class="required">*</span></label>
+<textarea id="presentAddress" name="presentAddress" required></textarea>
 </div>
 
 <div class="form-group">
-<label>Mobile Number</label>
-<input type="tel" id="mobile" name="mobile">
+<label>Mobile Number <span class="required">*</span></label>
+<input type="tel" id="mobile" name="mobile" required>
 </div>
 
 <div class="form-group">
-<label>Email Address</label>
+<label>Email Address <span class="required">*</span></label>
 <input type="email" id="email" name="email" required>
 </div>
 
@@ -624,7 +640,7 @@ Application completed successfully.
 <p>You may upload supporting documents (e.g., birth certificate, diploma, IDs). Files will be saved to Google Drive and links added to the spreadsheet.</p>
 <div class="form-group">
     <label>Upload Files (you may select multiple)</label>
-    <input type="file" id="files" name="files" multiple>
+    <input type="file" id="files" name="files" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
 </div>
 
 <div class="form-group">
@@ -704,8 +720,8 @@ Application completed successfully.
 <div class="grid">
 
 <div class="form-group">
-<label>Name</label>
-<input type="text" id="emergencyName" name="emergencyName">
+<label>Name <span class="required">*</span></label>
+<input type="text" id="emergencyName" name="emergencyName" required>
 </div>
 
 <div class="form-group">
@@ -714,8 +730,8 @@ Application completed successfully.
 </div>
 
 <div class="form-group">
-<label>Contact Number</label>
-<input type="text" id="emergencyContact" name="emergencyContact">
+<label>Contact Number <span class="required">*</span></label>
+<input type="text" id="emergencyContact" name="emergencyContact" required>
 </div>
 
 </div>
@@ -738,7 +754,7 @@ the policies and standards of AIMTECH CHRISTIAN COLLEGE – Theological Seminary
 <div class="grid">
 
 <div class="form-group">
-<label>Applicant Signature (Type Full Name)</label>
+<label>Applicant Signature (Type Full Name) <span class="required">*</span></label>
 <input type="text" id="applicantSignature" name="applicantSignature" required>
 </div>
 
@@ -855,34 +871,215 @@ function readFileAsBase64(file){
         });
 }
 
+function showStatus(message, isError){
+        const successMessage = document.getElementById("successMessage");
+
+        successMessage.textContent = message;
+        successMessage.classList.toggle("error", Boolean(isError));
+        successMessage.style.display = "block";
+}
+
+function clearValidationErrors(form){
+        form.querySelectorAll(".field-error").forEach(function(field){
+                field.classList.remove("field-error");
+        });
+
+        form.querySelectorAll(".error-text").forEach(function(message){
+                message.remove();
+        });
+}
+
+function addValidationError(field, message){
+        if (!field) return;
+
+        field.classList.add("field-error");
+
+        const formGroup = field.closest(".form-group") || field.closest("label") || field.parentElement;
+        const errorText = document.createElement("div");
+        errorText.className = "error-text";
+        errorText.textContent = message;
+
+        formGroup.appendChild(errorText);
+}
+
+function isValidEmail(value){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function isValidPhone(value){
+        return /^[0-9+\-\s()]{7,20}$/.test(value);
+}
+
+function getAgeFromDate(dateValue){
+        const birthDate = new Date(dateValue);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+        }
+
+        return age;
+}
+
+function validateAdmissionForm(form){
+        clearValidationErrors(form);
+
+        const errors = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const requiredFields = [
+                { id: "fullname", message: "Full name is required." },
+                { id: "dob", message: "Date of birth is required." },
+                { id: "presentAddress", message: "Present address is required." },
+                { id: "mobile", message: "Mobile number is required." },
+                { id: "email", message: "Email address is required." },
+                { id: "emergencyName", message: "Emergency contact name is required." },
+                { id: "emergencyContact", message: "Emergency contact number is required." },
+                { id: "applicantSignature", message: "Applicant signature is required." }
+        ];
+
+        requiredFields.forEach(function(item){
+                const field = document.getElementById(item.id);
+
+                if (!field || !field.value.trim()) {
+                        errors.push(item.message);
+                        addValidationError(field, item.message);
+                }
+        });
+
+        const email = document.getElementById("email");
+        if (email.value.trim() && !isValidEmail(email.value.trim())) {
+                errors.push("Enter a valid email address.");
+                addValidationError(email, "Enter a valid email address.");
+        }
+
+        const mobile = document.getElementById("mobile");
+        if (mobile.value.trim() && !isValidPhone(mobile.value.trim())) {
+                errors.push("Enter a valid mobile number.");
+                addValidationError(mobile, "Use numbers, spaces, +, -, or parentheses only.");
+        }
+
+        const emergencyContact = document.getElementById("emergencyContact");
+        if (emergencyContact.value.trim() && !isValidPhone(emergencyContact.value.trim())) {
+                errors.push("Enter a valid emergency contact number.");
+                addValidationError(emergencyContact, "Use numbers, spaces, +, -, or parentheses only.");
+        }
+
+        const dob = document.getElementById("dob");
+        if (dob.value) {
+                const dobDate = new Date(dob.value);
+
+                if (dobDate >= today) {
+                        errors.push("Date of birth must be in the past.");
+                        addValidationError(dob, "Date of birth must be in the past.");
+                }
+        }
+
+        const age = document.getElementById("age");
+        if (age.value) {
+                const ageNumber = Number(age.value);
+
+                if (!Number.isInteger(ageNumber) || ageNumber < 12 || ageNumber > 100) {
+                        errors.push("Age must be between 12 and 100.");
+                        addValidationError(age, "Age must be between 12 and 100.");
+                } else if (dob.value && Math.abs(ageNumber - getAgeFromDate(dob.value)) > 1) {
+                        errors.push("Age does not match the date of birth.");
+                        addValidationError(age, "Please check the age against the date of birth.");
+                }
+        }
+
+        ["height", "weight", "membershipYears"].forEach(function(id){
+                const field = document.getElementById(id);
+                if (field && field.value && Number(field.value) < 0) {
+                        errors.push("Numeric values cannot be negative.");
+                        addValidationError(field, "Value cannot be negative.");
+                }
+        });
+
+        const applicationDate = document.getElementById("applicationDate");
+        if (applicationDate.value) {
+                const applicationDateValue = new Date(applicationDate.value);
+                applicationDateValue.setHours(0, 0, 0, 0);
+
+                if (applicationDateValue > today) {
+                        errors.push("Application date cannot be in the future.");
+                        addValidationError(applicationDate, "Application date cannot be in the future.");
+                }
+        }
+
+        const dateAccepted = document.getElementById("dateAccepted");
+        const dateBaptized = document.getElementById("dateBaptized");
+        if (dateAccepted.value && dateBaptized.value && new Date(dateBaptized.value) < new Date(dateAccepted.value)) {
+                errors.push("Baptism date cannot be before the date accepted.");
+                addValidationError(dateBaptized, "Baptism date cannot be before the date accepted.");
+        }
+
+        const signature = document.getElementById("applicantSignature");
+        const fullname = document.getElementById("fullname");
+        if (signature.value.trim() && fullname.value.trim() && signature.value.trim().toLowerCase() !== fullname.value.trim().toLowerCase()) {
+                errors.push("Applicant signature must match the full name.");
+                addValidationError(signature, "Type the same full name used above.");
+        }
+
+        const program = document.querySelector('input[name="program"]:checked');
+        if (!program) {
+                errors.push("Please select a program.");
+                const firstProgram = document.querySelector('input[name="program"]');
+                addValidationError(firstProgram, "Please select a program.");
+        }
+
+        const allowedFileTypes = [
+                "application/pdf",
+                "image/jpeg",
+                "image/png",
+                "application/msword",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ];
+        const selectedFiles = Array.from(document.getElementById("files").files || []);
+        const maxFileSize = 10 * 1024 * 1024;
+        const filesInput = document.getElementById("files");
+
+        for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                        errors.push("Each uploaded file must be 10MB or smaller.");
+                        addValidationError(filesInput, "Each uploaded file must be 10MB or smaller.");
+                        break;
+                }
+
+                if (file.type && !allowedFileTypes.includes(file.type)) {
+                        errors.push("Only PDF, JPG, PNG, DOC, or DOCX files are allowed.");
+                        addValidationError(filesInput, "Only PDF, JPG, PNG, DOC, or DOCX files are allowed.");
+                        break;
+                }
+        }
+
+        if (errors.length) {
+                const firstError = form.querySelector(".field-error");
+                if (firstError) {
+                        firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+                        firstError.focus({ preventScroll: true });
+                }
+        }
+
+        return errors;
+}
+
 document.getElementById("admissionForm").addEventListener("submit", async function(e){
         e.preventDefault();
 
         const form = e.currentTarget;
-        const fullname = document.getElementById("fullname").value;
-        const email = document.getElementById("email").value;
-        const program = document.querySelector('input[name="program"]:checked');
-        
-        if (fullname.trim() === "") {
-                alert("Please enter your full name.");
-                return;
-        }
-        
-        if (!email.trim()) {
-                alert("Please enter your email address.");
-                return;
-        }
-        
-        if (!program) {
-                alert("Please select a program.");
-                return;
-        }
-        
-        const successMessage = document.getElementById("successMessage");
         const submitButton = document.querySelector('#admissionForm button[type="submit"]');
+        const validationErrors = validateAdmissionForm(form);
 
-        successMessage.textContent = "Submitting application...";
-        successMessage.style.display = "block";
+        if (validationErrors.length) {
+                showStatus("Please fix the highlighted fields before submitting.", true);
+                return;
+        }
+
+        showStatus("Submitting application...", false);
         window.scrollTo({ top: 0, behavior: "smooth" });
 
         if (submitButton) {
@@ -897,7 +1094,7 @@ document.getElementById("admissionForm").addEventListener("submit", async functi
 
         for (const file of selectedFiles) {
                 if (file.size > maxFileSize) {
-                        successMessage.textContent = "Each uploaded file must be 10MB or smaller.";
+                        showStatus("Each uploaded file must be 10MB or smaller.", true);
                         if (submitButton) {
                                 submitButton.disabled = false;
                                 submitButton.textContent = "Submit Application";
@@ -917,7 +1114,7 @@ document.getElementById("admissionForm").addEventListener("submit", async functi
                 body.append("files_json", JSON.stringify(uploadedFiles));
         } catch (error) {
                 console.error("File reading failed:", error);
-                successMessage.textContent = "Unable to prepare uploaded files. Please try again.";
+                showStatus("Unable to prepare uploaded files. Please try again.", true);
                 if (submitButton) {
                         submitButton.disabled = false;
                         submitButton.textContent = "Submit Application";
@@ -934,7 +1131,7 @@ document.getElementById("admissionForm").addEventListener("submit", async functi
                 body: body.toString()
         })
                 .then(function() {
-                        successMessage.textContent = "Application completed successfully.";
+                        showStatus("Application completed successfully.", false);
                         window.scrollTo({ top: 0, behavior: "smooth" });
                         setTimeout(() => {
                                 form.reset();
@@ -946,7 +1143,7 @@ document.getElementById("admissionForm").addEventListener("submit", async functi
                 })
                 .catch(function(error) {
                         console.error("Submission failed:", error);
-                        successMessage.textContent = "Submission failed. Please check your internet connection and try again.";
+                        showStatus("Submission failed. Please check your internet connection and try again.", true);
                         if (submitButton) {
                                 submitButton.disabled = false;
                                 submitButton.textContent = "Submit Application";
