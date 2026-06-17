@@ -281,7 +281,7 @@ textarea:focus{
 Application completed successfully.
 </div>
 
-<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbzm0n2eJf6iWWCJa65zGu-xTeEkfP6F1QD-Vwv4PzLFR8CslaQX90rOWDJUvu4fkJmquA/exec" method="post">
+<form id="admissionForm" action="https://script.google.com/macros/s/AKfycbypLYpPu8AQtjxe9DXj2AMeqKPJ278GvK5mPBycbwkTpAsd_tbO14PXWu37TUsdJtQjqw/exec" method="post">
 
 <!-- APPLICANT -->
 
@@ -831,7 +831,31 @@ function addReference(){
     container.appendChild(div);
 }
 
-document.getElementById("admissionForm").addEventListener("submit", function(e){
+function readFileAsBase64(file){
+        return new Promise(function(resolve, reject){
+                const reader = new FileReader();
+
+                reader.onload = function(){
+                        const result = String(reader.result || "");
+                        const base64 = result.includes(",") ? result.split(",")[1] : result;
+
+                        resolve({
+                                name: file.name,
+                                type: file.type || "application/octet-stream",
+                                size: file.size,
+                                data: base64
+                        });
+                };
+
+                reader.onerror = function(){
+                        reject(reader.error || new Error("Unable to read file."));
+                };
+
+                reader.readAsDataURL(file);
+        });
+}
+
+document.getElementById("admissionForm").addEventListener("submit", async function(e){
         e.preventDefault();
 
         const form = e.currentTarget;
@@ -868,13 +892,37 @@ document.getElementById("admissionForm").addEventListener("submit", function(e){
 
         const body = new URLSearchParams();
         const formData = new FormData(form);
+        const selectedFiles = Array.from(document.getElementById("files").files || []);
+        const maxFileSize = 10 * 1024 * 1024;
+
+        for (const file of selectedFiles) {
+                if (file.size > maxFileSize) {
+                        successMessage.textContent = "Each uploaded file must be 10MB or smaller.";
+                        if (submitButton) {
+                                submitButton.disabled = false;
+                                submitButton.textContent = "Submit Application";
+                        }
+                        return;
+                }
+        }
 
         for (const [name, value] of formData.entries()) {
-                if (value instanceof File) {
-                        continue;
+                if (!(value instanceof File)) {
+                        body.append(name, value);
                 }
+        }
 
-                body.append(name, value);
+        try {
+                const uploadedFiles = await Promise.all(selectedFiles.map(readFileAsBase64));
+                body.append("files_json", JSON.stringify(uploadedFiles));
+        } catch (error) {
+                console.error("File reading failed:", error);
+                successMessage.textContent = "Unable to prepare uploaded files. Please try again.";
+                if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Submit Application";
+                }
+                return;
         }
 
         fetch(form.action, {
